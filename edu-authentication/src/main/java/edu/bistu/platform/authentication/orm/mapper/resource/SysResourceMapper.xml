@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bistu.platform.authentication.orm.mapper.resource.SysResourceMapper">
+  <resultMap id="BaseResultMap" type="edu.bistu.platform.authentication.orm.model.resource.SysResource">
+    <id column="resourceId" jdbcType="INTEGER" property="resourceId" />
+    <result column="resourceName" jdbcType="VARCHAR" property="resourceName" />
+    <result column="parentResourceId" jdbcType="INTEGER" property="parentResourceId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="isCommResource" jdbcType="INTEGER" property="isCommResource" />
+    <result column="isButton" jdbcType="INTEGER" property="isButton" />
+    <result column="isNavbar" jdbcType="INTEGER" property="isNavbar" />
+    <result column="seqNo" jdbcType="INTEGER" property="seqNo" />
+    <result column="innerCode" jdbcType="VARCHAR" property="innerCode" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="updateDate" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    resourceId, resourceName, parentResourceId, url, isCommResource, isButton, isNavbar, 
+    seqNo, innerCode, level, status, updateDate
+  </sql>
+  <select id="selectByExample" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResourceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >= 0">
+      limit ${limitStart} , ${count}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_resource
+    where resourceId = #{resourceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_resource
+    where resourceId = #{resourceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResourceExample">
+    delete from sys_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResource">
+    <selectKey keyProperty="resourceId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_resource (resourceName, parentResourceId, url, 
+      isCommResource, isButton, isNavbar, 
+      seqNo, innerCode, level, 
+      status, updateDate)
+    values (#{resourceName,jdbcType=VARCHAR}, #{parentResourceId,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{isCommResource,jdbcType=INTEGER}, #{isButton,jdbcType=INTEGER}, #{isNavbar,jdbcType=INTEGER}, 
+      #{seqNo,jdbcType=INTEGER}, #{innerCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResource">
+    <selectKey keyProperty="resourceId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resourceName != null">
+        resourceName,
+      </if>
+      <if test="parentResourceId != null">
+        parentResourceId,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="isCommResource != null">
+        isCommResource,
+      </if>
+      <if test="isButton != null">
+        isButton,
+      </if>
+      <if test="isNavbar != null">
+        isNavbar,
+      </if>
+      <if test="seqNo != null">
+        seqNo,
+      </if>
+      <if test="innerCode != null">
+        innerCode,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateDate != null">
+        updateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resourceName != null">
+        #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentResourceId != null">
+        #{parentResourceId,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isCommResource != null">
+        #{isCommResource,jdbcType=INTEGER},
+      </if>
+      <if test="isButton != null">
+        #{isButton,jdbcType=INTEGER},
+      </if>
+      <if test="isNavbar != null">
+        #{isNavbar,jdbcType=INTEGER},
+      </if>
+      <if test="seqNo != null">
+        #{seqNo,jdbcType=INTEGER},
+      </if>
+      <if test="innerCode != null">
+        #{innerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResourceExample" resultType="java.lang.Long">
+    select count(*) from sys_resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_resource
+    <set>
+      <if test="record.resourceId != null">
+        resourceId = #{record.resourceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.resourceName != null">
+        resourceName = #{record.resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentResourceId != null">
+        parentResourceId = #{record.parentResourceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isCommResource != null">
+        isCommResource = #{record.isCommResource,jdbcType=INTEGER},
+      </if>
+      <if test="record.isButton != null">
+        isButton = #{record.isButton,jdbcType=INTEGER},
+      </if>
+      <if test="record.isNavbar != null">
+        isNavbar = #{record.isNavbar,jdbcType=INTEGER},
+      </if>
+      <if test="record.seqNo != null">
+        seqNo = #{record.seqNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.innerCode != null">
+        innerCode = #{record.innerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        updateDate = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_resource
+    set resourceId = #{record.resourceId,jdbcType=INTEGER},
+      resourceName = #{record.resourceName,jdbcType=VARCHAR},
+      parentResourceId = #{record.parentResourceId,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      isCommResource = #{record.isCommResource,jdbcType=INTEGER},
+      isButton = #{record.isButton,jdbcType=INTEGER},
+      isNavbar = #{record.isNavbar,jdbcType=INTEGER},
+      seqNo = #{record.seqNo,jdbcType=INTEGER},
+      innerCode = #{record.innerCode,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      updateDate = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResource">
+    update sys_resource
+    <set>
+      <if test="resourceName != null">
+        resourceName = #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentResourceId != null">
+        parentResourceId = #{parentResourceId,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isCommResource != null">
+        isCommResource = #{isCommResource,jdbcType=INTEGER},
+      </if>
+      <if test="isButton != null">
+        isButton = #{isButton,jdbcType=INTEGER},
+      </if>
+      <if test="isNavbar != null">
+        isNavbar = #{isNavbar,jdbcType=INTEGER},
+      </if>
+      <if test="seqNo != null">
+        seqNo = #{seqNo,jdbcType=INTEGER},
+      </if>
+      <if test="innerCode != null">
+        innerCode = #{innerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        updateDate = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where resourceId = #{resourceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.bistu.platform.authentication.orm.model.resource.SysResource">
+    update sys_resource
+    set resourceName = #{resourceName,jdbcType=VARCHAR},
+      parentResourceId = #{parentResourceId,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      isCommResource = #{isCommResource,jdbcType=INTEGER},
+      isButton = #{isButton,jdbcType=INTEGER},
+      isNavbar = #{isNavbar,jdbcType=INTEGER},
+      seqNo = #{seqNo,jdbcType=INTEGER},
+      innerCode = #{innerCode,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      updateDate = #{updateDate,jdbcType=TIMESTAMP}
+    where resourceId = #{resourceId,jdbcType=INTEGER}
+  </update>
+</mapper>
