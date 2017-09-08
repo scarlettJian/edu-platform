@@ -3,6 +3,8 @@ package edu.bistu.platform.authentication.orm.mapper.role;
 import edu.bistu.platform.authentication.orm.model.role.SysRole;
 import edu.bistu.platform.authentication.orm.model.role.SysRoleExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 public interface SysRoleMapper {
@@ -27,4 +29,7 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+
+    @Delete("delete from sys_role where roleId=#{roleId}")
+    int deleteByRoleId(Integer roleId);
 }

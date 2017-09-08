@@ -1,28 +1,29 @@
 package edu.bistu.platform.authentication;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import edu.bistu.platform.authentication.orm.model.user.SysUser;
-import edu.bistu.platform.authentication.orm.model.user.SysUserResource;
+import edu.bistu.platform.authentication.orm.model.role.SysRole;
+import edu.bistu.platform.authentication.service.RoleService;
 import edu.bistu.platform.authentication.service.UserMenuService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring/spring-service.xml", "classpath*:spring/spring-mybatis.xml"})
+@ContextConfiguration({"classpath:spring/spring-*.xml", "classpath*:spring/spring-mybatis.xml"})
 public class UserMenuServiceTest {
     @Autowired
     UserMenuService userMenuService;
 
+    @Autowired
+    RoleService roleService;
+
     @Test
     public void test() {
-        SysUser user = new SysUser();
-        user.setUserId(1);
-        getClass();
-        List<SysUserResource> menus = userMenuService.getMenu(user);
+        SysRole role = new SysRole();
+        role.setRoleName("test");
+        roleService.addRole(role);
+        System.out.println();
     }
 }

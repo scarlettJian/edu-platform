@@ -3,6 +3,8 @@ package edu.bistu.platform.authentication.orm.mapper.user;
 import edu.bistu.platform.authentication.orm.model.user.SysUser;
 import edu.bistu.platform.authentication.orm.model.user.SysUserExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 public interface SysUserMapper {
@@ -27,4 +29,7 @@ public interface SysUserMapper {
     int updateByPrimaryKeySelective(SysUser record);
 
     int updateByPrimaryKey(SysUser record);
+
+    @Delete("delete from sys_user where userId=#{userId}")
+    int deleteByUserId(Integer userId);
 }
