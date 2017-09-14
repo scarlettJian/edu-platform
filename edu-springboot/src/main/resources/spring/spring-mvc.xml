@@ -22,12 +22,6 @@
 		</mvc:interceptor> </mvc:interceptors> -->
 	<!-- <mvc:interceptors> <bean class="com.founder.ebd.interceptor.auth.AuthInterceptor"></bean> </mvc:interceptors> -->
 
-	<mvc:resources
-		mapping="/webjars/**"
-		location="classpath:/META-INF/resources/webjars/" />
-	<mvc:resources
-		location="/"
-		mapping="/**" />
 	<!-- 文件上传解析 -->
 	<bean
 		id="multipartResolver"
