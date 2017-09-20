@@ -10,6 +10,7 @@ import edu.bistu.platform.authentication.orm.model.role.SysRole;
 import edu.bistu.platform.authentication.service.RoleService;
 import edu.bistu.platform.authentication.service.UserMenuService;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-*.xml", "classpath*:spring/spring-mybatis.xml"})
 public class UserMenuServiceTest {
