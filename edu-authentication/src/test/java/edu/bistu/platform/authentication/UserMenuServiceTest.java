@@ -25,5 +25,7 @@ public class UserMenuServiceTest {
         role.setRoleName("test");
         roleService.addRole(role);
         System.out.println();
+        
+        System.out.println("新加的测试");
     }
 }
