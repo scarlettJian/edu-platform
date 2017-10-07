@@ -23,7 +23,7 @@ public class UserMenuServiceTest {
     @Test
     public void test() {
         SysRole role = new SysRole();
-        role.setRoleName("test");
+        role.setRoleName("test03");
         roleService.addRole(role);
         System.out.println();
         
