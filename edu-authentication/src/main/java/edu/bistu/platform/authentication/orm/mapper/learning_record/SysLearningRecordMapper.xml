@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bistu.platform.authentication.orm.mapper.learning_record.SysLearningRecordMapper">
+	<resultMap type="edu.bistu.platform.authentication.orm.model.learning_record.SysLearningRecord" id="BaseResultMap">
+		<id column="recordId" jdbcType="INTEGER" property="recordId"/>
+		<result column="studentId" jdbcType="INTEGER" property="studentId"/>
+		<result column="coursesId" jdbcType="INTEGER" property="coursesId"/>
+		<result column="chapterId" jdbcType="INTEGER" property="chapterId"/>
+		<result column="learningTime" jdbcType="INTEGER" property="learningTime"/>
+		<result column="startTime" jdbcType="INTEGER" property="startTime"/>
+		<result column="lastTime" jdbcType="INTEGER" property="lastTime"/>
+		<result column="rate" jdbcType="INTEGER" property="rate"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		recordId,studentId,coursesId,chapterId,learningTime,startTime,lastTime,rate
+	</sql>
+	<select id="selectRocordByStudentChapterId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from sys_learning_records
+		where studentId=#{studentId,jdbcType=VARCHAR} and chapterId=#{chapterId,jdbcType=VARCHAR}
+	</select>
+	<insert id="addRecord" parameterType="edu.bistu.platform.authentication.orm.model.learning_record.SysLearningRecord">
+		<selectKey keyProperty="recordId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_learning_records
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				studentId,
+			</if>
+			<if test="coursesId != null">
+				coursesId,
+			</if>
+			<if test="chapterId != null">
+				chapterId,
+			</if>
+			<if test="learningTime != null">
+				learningTime,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="lastTime != null">
+				lastTime,
+			</if>
+			<if test="rate != null">
+				rate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				#{studentId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursesId != null">
+				#{coursesId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterId != null">
+				#{chapterId,jdbcType=VARCHAR},
+			</if>
+			<if test="learningTime != null">
+				#{learningTime,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="lastTime != null">
+				#{lastTime,jdbcType=VARCHAR},
+			</if>
+			<if test="rate != null">
+				#{rate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateRecord" parameterType="edu.bistu.platform.authentication.orm.model.learning_record.SysLearningRecord">
+		update sys_learning_records
+		<set>
+			<if test="learningTime != null">
+				learningTime = #{learningTime,jdbcType=VARCHAR},
+			</if>
+			<if test="lastTime != null">
+				lastTime = #{lastTime,jdbcType=VARCHAR},
+			</if>
+			<if test="rate != null">
+				rate = #{rate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where studentId=#{studentId,jdbcType=VARCHAR} and chapterId=#{chapterId,jdbcType=VARCHAR} 
+	</update>
+	
+</mapper>

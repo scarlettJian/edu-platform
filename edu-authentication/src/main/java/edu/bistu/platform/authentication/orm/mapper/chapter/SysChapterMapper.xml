@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bistu.platform.authentication.orm.mapper.chapter.SysChapterMapper">
+	<resultMap type="edu.bistu.platform.authentication.orm.model.chapter.SysChapter" id="BaseResultMap">
+		<id column="chapterId" jdbcType="INTEGER" property="chapterId"/>
+		<result column="coursesId" jdbcType="INTEGER" property="coursesId"/>
+		<result column="chapterName" jdbcType="INTEGER" property="chapterName"/>
+		<result column="chapterTime" jdbcType="INTEGER" property="chapterTime"/>
+		<result column="vedioLink" jdbcType="INTEGER" property="vedioLink"/>
+		<result column="chapterInfo" jdbcType="INTEGER" property="chapterInfo"/>
+		<result column="createtDate" jdbcType="INTEGER" property="createtDate"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		chapterId,coursesId,chapterName,chapterTime,vedioLink,chapterInfo,createtDate
+	</sql>
+	<select id="selectChapterByCoursesId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from sys_courses_chapter
+		where coursesId= #{coursesId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from sys_courses_chapter
+		where chapterId = #{chapterId,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertChapterSelective" parameterType="edu.bistu.platform.authentication.orm.model.chapter.SysChapter">
+		<selectKey keyProperty="chapterId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_courses_chapter
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="coursesId != null">
+				coursesId,
+			</if>
+			<if test="chapterName != null">
+				chapterName,
+			</if>
+			<if test="chapterTime != null">
+				chapterTime,
+			</if>
+			<if test="vedioLink != null">
+				vedioLink,
+			</if>
+			<if test="chapterInfo != null">
+				chapterInfo,
+			</if>
+			<if test="createtDate != null">
+				createtDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="coursesId != null">
+				#{coursesId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterName != null">
+				#{chapterName,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterTime != null">
+				#{chapterTime,jdbcType=VARCHAR},
+			</if>
+			<if test="vedioLink != null">
+				#{vedioLink,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterInfo != null">
+				#{chapterInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="createtDate != null">
+				#{createtDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateChapter" parameterType="edu.bistu.platform.authentication.orm.model.chapter.SysChapter">
+		update sys_courses_chapter
+		<set>
+			<if test="coursesId != null">
+				coursesId = #{coursesId,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterName != null">
+				chapterName = #{chapterName,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterTime != null">
+				chapterTime = #{chapterTime,jdbcType=VARCHAR},
+			</if>
+			<if test="vedioLink != null">
+				vedioLink = #{vedioLink,jdbcType=VARCHAR},
+			</if>
+			<if test="chapterInfo != null">
+				chapterInfo = #{chapterInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="createtDate != null">
+				createtDate = #{createtDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where chapterId = #{chapterId,jdbcType=VARCHAR}
+	</update>
+	<delete id="batchDeleteByPrimaryKey">
+	delete from sys_courses_chapter 
+	where chapterId in
+	<foreach collection="array" item="chapterId" separator="," open="(" close=")">
+		#{chapterId,jdbcType=VARCHAR}
+	</foreach>
+</delete>
+
+</mapper>

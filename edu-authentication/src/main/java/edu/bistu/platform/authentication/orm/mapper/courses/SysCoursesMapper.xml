@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bistu.platform.authentication.orm.mapper.courses.SysCoursesMapper">
+	<resultMap type="edu.bistu.platform.authentication.orm.model.cources.SysCourses" id="BaseResultMap">
+		<id column="coursesId" jdbcType="INTEGER" property="coursesId"/>
+		<result column="coursesName" jdbcType="INTEGER" property="coursesName"/>
+		<result column="classificationId" jdbcType="INTEGER" property="classificationId"/>
+		<result column="coursesTime" jdbcType="INTEGER" property="coursesTime"/>
+		<result column="coursesInfo" jdbcType="INTEGER" property="coursesInfo"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		coursesId,coursesName,classificationId,coursesTime,coursesInfo
+	</sql>
+	<insert id="insertCourses" parameterType="edu.bistu.platform.authentication.orm.model.cources.SysCourses">
+		<selectKey keyProperty="coursesId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_courses (coursesName,classificationId,coursesTime,coursesInfo) 
+		values(#{coursesName,jdbcType=VARCHAR},#{classificationId,jdbcType=VARCHAR},
+		#{coursesTime,jdbcType=VARCHAR},#{coursesInfo,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertCoursesSelective" parameterType="edu.bistu.platform.authentication.orm.model.cources.SysCourses">
+		<selectKey keyProperty="coursesId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_courses
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="coursesName != null">
+				coursesName,
+			</if>
+			<if test="classificationId != null">
+				classificationId,
+			</if>
+			<if test="coursesTime != null">
+				coursesTime,
+			</if>
+			<if test="coursesInfo != null">
+				coursesInfo,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="coursesName != null">
+				#{coursesName,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationId != null">
+				#{classificationId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursesTime != null">
+				#{coursesTime,jdbcType=VARCHAR},
+			</if>
+			<if test="coursesInfo != null">
+				#{coursesInfo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateCourses" parameterType="edu.bistu.platform.authentication.orm.model.cources.SysCourses">
+		update sys_courses 
+		<set>
+			<if test="coursesName != null">
+				coursesName = #{coursesName,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationId != null">
+				classificationId = #{classificationId,jdbcType=VARCHAR},
+			</if>
+			<if test="coursesTime != null">
+				coursesTime = #{coursesTime,jdbcType=VARCHAR},
+			</if>
+			<if test="coursesInfo != null">
+				coursesInfo = #{coursesInfo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where coursesId = #{coursesId,jdbcType=VARCHAR} 
+	</update>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from sys_courses
+		where coursesId = #{coursesId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByCoursesName" parameterType="edu.bistu.platform.authentication.orm.model.cources.SysCourses" resultMap="BaseResultMap">
+		select c.`coursesId`,c.`coursesName`,c.`classificationId`,c.`coursesTime`,c.`coursesInfo`
+		from  sys_courses as c
+		left join sys_courses_classification cc on c.`classificationId`=cc.`classificationId`
+		<where>
+			<if test="coursesName != null">
+				c.`coursesName` like CONCAT('%',#{coursesName},'%')
+			</if>
+			<if test="classificationName != null">
+				AND cc.`classificationName` = #{classificationName,jdbcType=VARCHAR} 
+			</if>
+		</where>
+	</select>
+	<select id="selectAllCourses" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from  sys_courses
+	</select>
+	<select id="selectByclassificationId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from sys_courses
+		where classificationId = #{classificationId,jdbcType=VARCHAR}
+	</select>
+		
+		
+	<select id="selectAllCoursesByStuClass" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select c.`coursesId`,c.`coursesName`,c.`classificationId`,c.`coursesTime`,c.`coursesInfo`
+		from sys_courses as c
+		left join sys_teacher_courses_distribution as d on c.coursesId=d.`coursesId`
+		where d.`studentClass`=#{studentClass,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="batchDeleteByPrimaryKey">
+		delete from sys_courses 
+		where coursesId in
+		<foreach collection="array" item="coursesId" separator="," open="(" close=")">
+			#{coursesId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+	
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bistu.platform.authentication.orm.mapper.courses.classification.SysCoursesClassificationMapper">
+<resultMap type="edu.bistu.platform.authentication.orm.model.cources.classification.SysCoursesClassification" id="BaseResultMap">
+	<id column="classificationId" jdbcType="INTEGER" property="classificationId"/>
+	<result column="classificationName" jdbcType="INTEGER" property="classificationName"/>
+	<result column="classificationInfo" jdbcType="INTEGER" property="classificationInfo"/>
+</resultMap>
+<sql id="Base_Column_List">
+	classificationId,classificationName,classificationInfo
+</sql>
+<insert id="insertClassification" parameterType="edu.bistu.platform.authentication.orm.model.cources.classification.SysCoursesClassification">
+	<selectKey keyProperty="classificationId" order="AFTER" resultType="java.lang.Integer">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+	insert into sys_courses_classification (classificationName,classificationInfo) 
+	values(#{classificationName,jdbcType=VARCHAR},#{classificationInfo,jdbcType=VARCHAR})
+</insert>
+<insert id="insertClassificationSelective" parameterType="edu.bistu.platform.authentication.orm.model.cources.classification.SysCoursesClassification">
+	<selectKey keyProperty="classificationId" order="AFTER" resultType="java.lang.Integer">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+	insert into sys_courses_classification 
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="classificationName != null">
+			classificationName,
+		</if>
+		<if test="classificationInfo != null">
+			classificationInfo,
+		</if>
+	</trim>
+	<trim prefix="values(" suffix=")" suffixOverrides=",">
+		<if test="classificationName != null">
+			#{classificationName,jdbcType=VARCHAR},
+		</if>
+		<if test="classificationInfo != null">
+			#{classificationInfo,jdbcType=VARCHAR},
+		</if>
+	</trim>
+</insert>
+<update id="updateClassification" parameterType="edu.bistu.platform.authentication.orm.model.cources.classification.SysCoursesClassification">
+	update sys_courses_classification 
+		<set>
+			<if test="classificationName != null">
+				classificationName = #{classificationName,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationInfo != null">
+				classificationInfo = #{classificationInfo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where classificationId = #{classificationId,jdbcType=VARCHAR} 
+</update>
+<select id="selectClassificationByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List"/>
+	from sys_courses_classification
+	where classificationId= #{classificationId,jdbcType=VARCHAR}
+</select>
+<select id="selectClassificationByCoursesName" parameterType="edu.bistu.platform.authentication.orm.model.cources.classification.SysCoursesClassification" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List"/>
+	from sys_courses_classification
+	<where>
+		<if test="classificationName != null">
+			classificationName= #{classificationName,jdbcType=VARCHAR}
+		</if>
+	</where>
+</select>
+<select id="selectClassification" parameterType="edu.bistu.platform.authentication.orm.model.cources.classification.SysCoursesClassification" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List"/>
+	from sys_courses_classification
+</select>
+
+<delete id="batchDeleteByPrimaryKey">
+	delete from sys_courses_classification 
+	where classificationId in
+	<foreach collection="array" item="classificationId" separator="," open="(" close=")">
+		#{classificationId,jdbcType=VARCHAR}
+	</foreach>
+</delete>
+
+
+</mapper>
